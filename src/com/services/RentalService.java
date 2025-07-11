@@ -1,73 +1,67 @@
 package com.services;
+
 import com.rentals.Rentable;
 import com.rentals.Vehicle;
 import com.user.User;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class RentalService {
-    private List<Rentable> availableRentals = new ArrayList<>();
-    private Map<User,Rentable> rentals = new HashMap<>();
+    private final List<Rentable> availableRentals = new ArrayList<>();
+    private final Map<User, Rentable> rentals = new HashMap<>();
+    private final List<User> users = new ArrayList<>();
 
-    public void addRentals(Rentable rentable){
+    public void addUser(User user) {
+        this.users.add(user);
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void addRentals(Rentable rentable) {
         this.availableRentals.add(rentable);
     }
 
-    public void printAvailableRentals(){
-        System.out.println("Available Rentals:");
-        boolean hasAvailable = false;
-        for(Rentable r : availableRentals){
-            if(r.isAvailable()){
-                Vehicle v = (Vehicle) r;
-                System.out.println(v.toString());
+    public List<Rentable> getAvailableRentals() {
+        List<Rentable> available = new ArrayList<>();
+        for (Rentable r : availableRentals) {
+            if (r.isAvailable()) {
+                available.add(r);
             }
         }
-        if(!hasAvailable){
-            System.out.println("No rentals currently available.");
-        }
+        return available;
     }
 
-    public void printAllRentals(){
-        System.out.println("All Rentals:");
-        if(availableRentals.isEmpty()){
-            System.out.println("No rentals in system.");
-        } else {
-            for(Rentable r : availableRentals){
-                System.out.println(r.toString());
-            }
-        }
+    public List<Rentable> getAllRentals() {
+        return availableRentals;
     }
 
-    public void rent(User u, int Id, int days){
-        if(u.getAge() < 18 ){
-            System.out.println("Sorry can not be rented. You are underage");
-            return;
+
+    public String rent(User u, int Id, int days) {
+        if (u.getAge() < 18) {
+            return "Sorry can not be rented. You are underage";
         }
 
-        for(Rentable r: availableRentals){
-            if(r instanceof Vehicle v){
-                if(v.getId() == Id && v.isAvailable()){
+        for (Rentable r : availableRentals) {
+            if (r instanceof Vehicle v) {
+                if (v.getId() == Id && v.isAvailable()) {
                     v.setAvailable(false);
                     int cost = v.rentalCost(days);
                     u.addBalance(cost);
-                    rentals.put(u,r);
-                    System.out.println("Vehicle " + v.getId() + " rented successfully! Cost: " + cost + " for " + days + " days");
-                    return;
+                    rentals.put(u, r);
+                    return "Vehicle " + v.getId() + " rented successfully! Cost: " + cost + " for " + days + " days";
                 }
             }
         }
-        System.out.println("Vehicle with ID " + Id + " not found or not available");
+        return "Vehicle with ID " + Id + " not found or not available";
     }
 
-    public void printMap(){
-        System.out.println("Current Rentals:");
-        if(rentals.isEmpty()){
-            System.out.println("No active rentals.");
-        } else {
-            for(Map.Entry<User, Rentable> entry : rentals.entrySet()){
-                System.out.println("User: " + entry.getKey().getName() + " -> Vehicle: " + entry.getValue().toString());
-            }
-        }
+    public Map<User, Rentable> getRented() {
+        return rentals;
     }
 
 }
