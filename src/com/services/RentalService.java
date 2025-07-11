@@ -1,5 +1,4 @@
 package com.services;
-import com.*;
 import com.rentals.Rentable;
 import com.rentals.Vehicle;
 import com.user.User;
@@ -15,16 +14,27 @@ public class RentalService {
     }
 
     public void printAvailableRentals(){
+        System.out.println("Available Rentals:");
+        boolean hasAvailable = false;
         for(Rentable r : availableRentals){
             if(r.isAvailable()){
-                System.out.println(r);
+                Vehicle v = (Vehicle) r;
+                System.out.println(v.toString());
             }
+        }
+        if(!hasAvailable){
+            System.out.println("No rentals currently available.");
         }
     }
 
     public void printAllRentals(){
-        for(Rentable r : availableRentals){
-            System.out.println(r);
+        System.out.println("All Rentals:");
+        if(availableRentals.isEmpty()){
+            System.out.println("No rentals in system.");
+        } else {
+            for(Rentable r : availableRentals){
+                System.out.println(r.toString());
+            }
         }
     }
 
@@ -50,7 +60,14 @@ public class RentalService {
     }
 
     public void printMap(){
-        System.out.println(rentals);
+        System.out.println("Current Rentals:");
+        if(rentals.isEmpty()){
+            System.out.println("No active rentals.");
+        } else {
+            for(Map.Entry<User, Rentable> entry : rentals.entrySet()){
+                System.out.println("User: " + entry.getKey().getName() + " -> Vehicle: " + entry.getValue().toString());
+            }
+        }
     }
 
 }

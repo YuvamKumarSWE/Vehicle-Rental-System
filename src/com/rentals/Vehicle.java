@@ -51,4 +51,15 @@ public abstract class Vehicle implements Rentable {
     public int getBaseRate() {
         return baseRate;
     }
+
+    @Override
+    public String toString() {
+        return "Vehicle{" +
+                "Id=" + Id +
+                ", brand='" + brand + '\'' +
+                ", model='" + model + '\'' +
+                ", baseRate=" + baseRate +
+                ", available=" + available +
+                '}';
+    }
 }
