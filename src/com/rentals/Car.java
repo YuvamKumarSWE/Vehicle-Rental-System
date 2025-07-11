@@ -17,4 +17,6 @@ public class Car extends Vehicle{
             return days * getBaseRate();
         }
     }
+
+
 }

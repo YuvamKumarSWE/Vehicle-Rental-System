@@ -1,10 +1,11 @@
 package com.rentals;
 
-public abstract class Vehicle {
+public abstract class Vehicle implements Rentable {
     private int Id;
     private String brand;
     private String model;
     private int baseRate;
+    private boolean available = true;
 
     public Vehicle(int Id, String brand, String model, int baseRate){
         this.Id = Id;
@@ -12,6 +13,10 @@ public abstract class Vehicle {
         this.model = model;
         this.baseRate = baseRate;
     }
+
+    public boolean isAvailable() { return available; }
+
+    public void setAvailable(boolean status) { this.available = status; }
 
     public abstract int rentalCost(int days);
 
